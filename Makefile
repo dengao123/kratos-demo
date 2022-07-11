@@ -25,9 +25,10 @@ config:
 api:
 	protoc --proto_path=./api \
 	       --proto_path=./third_party \
- 	       --go_out=paths=source_relative:./api \
- 	       --go-http_out=paths=source_relative:./api \
- 	       --go-grpc_out=paths=source_relative:./api \
+ 	       --go_out=paths=source_relative:./pb \
+ 	       --go-http_out=paths=source_relative:./pb \
+ 	       --go-grpc_out=paths=source_relative:./pb \
+ 	       --validate_out=paths=source_relative,lang=go:./pb \
 	       --openapi_out=fq_schema_naming=true,default_response=false:. \
 	       $(API_PROTO_FILES)
 
@@ -68,3 +69,9 @@ help:
 	{ lastLine = $$0 }' $(MAKEFILE_LIST)
 
 .DEFAULT_GOAL := help
+
+.PHONY: wire
+wire:
+	cd cmd/kratos-demo && wire
+
+
